@@ -16,7 +16,7 @@ public class ClosestPoints {
       lap = System.nanoTime();
       System.out.println("brute force " + (lap - start));
       start = System.nanoTime();
-      System.out.println(dynamic(points));
+      System.out.println("dist " + dynamic(points));
       lap = System.nanoTime();
       System.out.println();
       System.out.println("dynamic " + (lap - start));
@@ -37,9 +37,15 @@ public class ClosestPoints {
             midIndex++;
          }
       }
+      // Remove blank values, important for length
       middle = Arrays.copyOfRange(middle, 0, midIndex);
       Arrays.sort(middle);
       
+      for (int i = 0; i < middle.length; i++) {
+         for (int j = i + 1; j < middle.length && middle[j].y - middle[i].y < min; j++) {
+            min = Math.min(min, distance(middle[i].x, middle[i].y, middle[j].x, middle[j].y));
+         }
+      }
       
       return min;
    }
