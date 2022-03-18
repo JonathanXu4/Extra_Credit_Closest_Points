@@ -18,7 +18,7 @@ public class ClosestPoints {
          System.out.println(points[i]);
       }*/
       start = System.nanoTime();
-      bruteForce(points);
+      System.out.println(bruteForce(points));
       lap = System.nanoTime();
       System.out.println();
       System.out.println(lap - start);
@@ -35,15 +35,15 @@ public class ClosestPoints {
    }
    
    // brute force solution
-   public static void bruteForce(Point[] points) {
+   public static double bruteForce(Point[] points) {
+      // Set to arbitrarily large number
+      double min = 1000000;
       for (int i = 0; i < points.length; i++) {
          for (int j = i; j < points.length; j++) {
-            System.out.println(distance(points[i].x, 
-                                        points[i].y,
-                                        points[j].x,
-                                        points[j].y));
+            min = Math.min(distance(points[i].x, points[i].y, points[j].x, points[j].y), min);
          }
       }
+      return min;
    }
    
    // distance formula
