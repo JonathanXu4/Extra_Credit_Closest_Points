@@ -7,31 +7,41 @@ public class ClosestPoints {
       float start = 0;
       float lap = 0;
       float total = 0;
-      System.out.println(lap - start);
       Point[] points = new Point[100];
       for (int i = 0; i < points.length; i++) {
          points[i] = new Point(in.nextInt(), in.nextInt());
       }
-      // testing print
-      
-      /*for (int i = 0; i < points.length; i++) {
-         System.out.println(points[i]);
-      }*/
       start = System.nanoTime();
-      System.out.println(bruteForce(points));
+      System.out.println("dist " + bruteForce(points));
+      lap = System.nanoTime();
+      System.out.println("brute force " + (lap - start));
+      start = System.nanoTime();
+      System.out.println(dynamic(points));
       lap = System.nanoTime();
       System.out.println();
-      System.out.println(lap - start);
-      start = System.nanoTime();
-      dynamic(points);
-      lap = System.nanoTime();
-      System.out.println();
-      System.out.println(lap - start);
+      System.out.println("dynamic " + (lap - start));
    }
    
-   public static void dynamic(Point[] points) {
-      Point[] first = Arrays.copyOfRange(points, 0, points.length / 2);
-      Point[] second = Arrays.copyOfRange(points, points.length / 2, points.length);
+   public static double dynamic(Point[] points) {
+      if (points.length <= 3) {
+         return bruteForce(points);
+      }
+      double min = Math.min(dynamic(Arrays.copyOfRange(points, 0, points.length / 2)),
+                           dynamic(Arrays.copyOfRange(points, points.length / 2, points.length)));
+      // Takes middle section of size min
+      Point[] middle = new Point[points.length];
+      int midIndex = 0;
+      for (int i = 0; i < middle.length; i++) {
+         if (Math.abs(points[i].x - points[points.length / 2].x) < min) {
+            middle[midIndex] = points[i];
+            midIndex++;
+         }
+      }
+      middle = Arrays.copyOfRange(middle, 0, midIndex);
+      Arrays.sort(middle);
+      
+      
+      return min;
    }
    
    // brute force solution
@@ -39,7 +49,7 @@ public class ClosestPoints {
       // Set to arbitrarily large number
       double min = 1000000;
       for (int i = 0; i < points.length; i++) {
-         for (int j = i; j < points.length; j++) {
+         for (int j = i + 1; j < points.length; j++) {
             min = Math.min(distance(points[i].x, points[i].y, points[j].x, points[j].y), min);
          }
       }
@@ -47,7 +57,7 @@ public class ClosestPoints {
    }
    
    // distance formula
-   public static double distance(int x1, int y1, int x2, int y2) {
+   public static double distance(double x1, double y1, double x2, double y2) {
       return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
    }
 }
