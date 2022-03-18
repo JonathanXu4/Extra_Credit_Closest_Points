@@ -2,24 +2,28 @@ import java.io.*;
 import java.util.*;
 
 public class ClosestPoints {
+   public static final int AMOUNT = 100;
    public static void main(String[] args) throws FileNotFoundException {
       Scanner in = new Scanner(new File("points.txt"));
       float start = 0;
-      float lap = 0;
-      float total = 0;
-      Point[] points = new Point[100];
+      float end = 0;
+      Point[] points = new Point[AMOUNT];
       for (int i = 0; i < points.length; i++) {
          points[i] = new Point(in.nextInt(), in.nextInt());
       }
       start = System.nanoTime();
-      System.out.println("dist " + bruteForce(points));
-      lap = System.nanoTime();
-      System.out.println("brute force " + (lap - start));
+      for (int i = 0; i < 200; i++) {
+         bruteForce(points);
+      }
+      end = System.nanoTime();
+      System.out.println("brute force " + (end - start));
       start = System.nanoTime();
-      System.out.println("dist " + dynamic(points));
-      lap = System.nanoTime();
-      System.out.println();
-      System.out.println("dynamic " + (lap - start));
+      for (int i = 0; i < 200; i++) {
+         Arrays.sort(points);
+         dynamic(points);
+      }
+      end = System.nanoTime();
+      System.out.println("dynamic " + (end - start));
    }
    
    public static double dynamic(Point[] points) {
