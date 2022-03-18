@@ -1,12 +1,20 @@
+// Jonathan Xu
+// Closest Points
+// 
+// This program compares a brute force and dynamic solution
+// to the closest points problem
+// It uses a file with 100 points created by the createPoints
+// program
+
 import java.io.*;
 import java.util.*;
 
 public class ClosestPoints {
-   public static final int LOOPS = 100;
+   public static final int LOOPS = 10;
    public static void main(String[] args) throws FileNotFoundException {
       Scanner in = new Scanner(new File("points.txt"));
-      double start = 0;
-      double end = 0;
+      double start;
+      double end;
       Point[] points = new Point[100];
       for (int i = 0; i < points.length; i++) {
          points[i] = new Point(in.nextInt(), in.nextInt());
@@ -19,6 +27,8 @@ public class ClosestPoints {
       System.out.println("brute force " + ((end - start) / LOOPS));
       start = System.nanoTime();
       for (int i = 0; i < LOOPS; i++) {
+         // This is to waste time because the array is already sorted
+         // in the file
          Arrays.sort(points);
          dynamic(points);
       }
@@ -27,12 +37,13 @@ public class ClosestPoints {
    }
    
    public static double dynamic(Point[] points) {
+      // base case. Didn't work well at 2
       if (points.length <= 3) {
          return bruteForce(points);
       }
-      double min = Math.min(dynamic(Arrays.copyOfRange(points, 0, points.length / 2)),
+      double min = Math.min(dynamic(Arrays.copyOf(points, points.length / 2)),
                            dynamic(Arrays.copyOfRange(points, points.length / 2, points.length)));
-      // Takes middle section of size min
+      // Takes middle section of width 2 * min
       Point[] middle = new Point[points.length];
       int midIndex = 0;
       for (int i = 0; i < middle.length; i++) {
@@ -42,12 +53,12 @@ public class ClosestPoints {
          }
       }
       // Remove blank values, important for length
-      middle = Arrays.copyOfRange(middle, 0, midIndex);
+      middle = Arrays.copyOf(middle, midIndex);
       Arrays.sort(middle);
       
       for (int i = 0; i < middle.length; i++) {
          for (int j = i + 1; j < middle.length && middle[j].y - middle[i].y < min; j++) {
-            min = Math.min(min, distance(middle[i].x, middle[i].y, middle[j].x, middle[j].y));
+            min = Math.min(min, distance(middle[i], middle[j]));
          }
       }
       
@@ -60,15 +71,15 @@ public class ClosestPoints {
       double min = 1000000;
       for (int i = 0; i < points.length; i++) {
          for (int j = i + 1; j < points.length; j++) {
-            min = Math.min(distance(points[i].x, points[i].y, points[j].x, points[j].y), min);
+            min = Math.min(distance(points[i], points[j]), min);
          }
       }
       return min;
    }
    
    // distance formula
-   public static double distance(double x1, double y1, double x2, double y2) {
-      return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+   public static double distance(Point a, Point b) {
+      return Math.sqrt(Math.pow((a.x - b.x), 2) + Math.pow((a.y - b.y), 2));
    }
 }
 
