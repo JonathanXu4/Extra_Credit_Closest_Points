@@ -22,6 +22,16 @@ public class ClosestPoints {
       lap = System.nanoTime();
       System.out.println();
       System.out.println(lap - start);
+      start = System.nanoTime();
+      dynamic(points);
+      lap = System.nanoTime();
+      System.out.println();
+      System.out.println(lap - start);
+   }
+   
+   public static void dynamic(Point[] points) {
+      Point[] first = Arrays.copyOfRange(points, 0, points.length / 2);
+      Point[] second = Arrays.copyOfRange(points, points.length / 2, points.length);
    }
    
    // brute force solution
