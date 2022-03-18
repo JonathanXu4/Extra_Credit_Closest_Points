@@ -27,3 +27,6 @@ In addition, it runs a dynamic algorithm which recursively splits the points int
 
 # Extra Details
 CreatePoints.java generates a set number of points that the user may select. By default this value is 100 but can be changed to any integer. It always generates the same x-values from the negative half of the selected amount to the positive half. Y-values are randomly generated. This method of point generation ensures that the points are sorted by x-intercept since I encountered difficulties sorting by 2-types of intercepts. To compensate for this, an additional pointless sort is made in the dynamic solution in order to add a similar amount of runtime.
+
+# Difficulties
+I could not figure out how to sort by both x-intercept and y-intercept at seperate times. As a result, I built my own Points class and created a compareTo method that would make it sort by y-intercept. Then I ensured that the already provided 100 points were sorted by x-intercept. As a result, this program cannot actually run properly given a random file. In addition, I had to add an additional sort to simulated the wasted time in the dynamic algorithm. With more experience, I would be able to avoid this issue.
