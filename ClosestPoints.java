@@ -14,18 +14,17 @@ public class ClosestPoints {
 
       }
       // testing print
-      Arrays.sort(hundredPoints);
       
-      for (int i = 0; i < hundredPoints.length; i++) {
+      /*for (int i = 0; i < hundredPoints.length; i++) {
          System.out.println(hundredPoints[i]);
-      }
+      }*/
       start = System.nanoTime();
       for (int i = 0; i < hundredPoints.length; i++) {
          for (int j = i; j < hundredPoints.length; j++) {
-            /*System.out.println(distance(hundredPoints[i][0], 
-                                        hundredPoints[i][1],
-                                        hundredPoints[j][0],
-                                        hundredPoints[j][1]));*/
+            System.out.println(distance(hundredPoints[i].x, 
+                                        hundredPoints[i].y,
+                                        hundredPoints[j].x,
+                                        hundredPoints[j].y));
          }
       }
       lap = System.nanoTime();
