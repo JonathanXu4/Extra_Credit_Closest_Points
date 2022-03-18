@@ -8,30 +8,35 @@ public class ClosestPoints {
       float lap = 0;
       float total = 0;
       System.out.println(lap - start);
-      Point[] hundredPoints = new Point[100];
-      for (int i = 0; i < hundredPoints.length; i++) {
-         hundredPoints[i] = new Point(in.nextInt(), in.nextInt());
-
+      Point[] points = new Point[100];
+      for (int i = 0; i < points.length; i++) {
+         points[i] = new Point(in.nextInt(), in.nextInt());
       }
       // testing print
       
-      /*for (int i = 0; i < hundredPoints.length; i++) {
-         System.out.println(hundredPoints[i]);
+      /*for (int i = 0; i < points.length; i++) {
+         System.out.println(points[i]);
       }*/
       start = System.nanoTime();
-      for (int i = 0; i < hundredPoints.length; i++) {
-         for (int j = i; j < hundredPoints.length; j++) {
-            System.out.println(distance(hundredPoints[i].x, 
-                                        hundredPoints[i].y,
-                                        hundredPoints[j].x,
-                                        hundredPoints[j].y));
-         }
-      }
+      bruteForce(points);
       lap = System.nanoTime();
       System.out.println();
       System.out.println(lap - start);
    }
    
+   // brute force solution
+   public static void bruteForce(Point[] points) {
+      for (int i = 0; i < points.length; i++) {
+         for (int j = i; j < points.length; j++) {
+            System.out.println(distance(points[i].x, 
+                                        points[i].y,
+                                        points[j].x,
+                                        points[j].y));
+         }
+      }
+   }
+   
+   // distance formula
    public static double distance(int x1, int y1, int x2, int y2) {
       return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
    }
@@ -50,6 +55,7 @@ class Point implements Comparable<Point> {
       return "(" + x + ", " + y + ")";
    }
    
+   // sort by y, list is already sorted by x
    public int compareTo(Point other) {
       return y - other.y;
    }
